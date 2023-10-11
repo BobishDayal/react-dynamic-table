@@ -52,9 +52,9 @@ export default function App() {
           </div>
         </div>
       ) : (
-        <div className=" flex flex-col h-screen  justify-start items-center w-screen ">
+        <div className=" flex flex-col h-screen  justify-start items-center w-screen relatve ">
           {NUM_OF_RECORDS > 5 ? (
-            <table className=" font-bold border-collapse border-spacing-y-2 w-4/5 text-lg  my-10  relative ">
+            <table className=" font-bold border-collapse border-spacing-y-2 w-4/5 text-lg  my-10   ">
               <thead className=" text-white shadow-2xl  ">
                 <tr>
                   <th className=" py-8 pl-12  text-start font-extrabold text-xl  bg-gray-600 w-1/3 ">
@@ -86,21 +86,9 @@ export default function App() {
                   );
                 })}
               </tbody>
-
-              <div className="flex flex-col py-7 absolute bottom-(-10) right-5">
-                {users.length > 5 && (
-                  <Pagination
-                    totalData={NUM_OF_RECORDS}
-                    pageLimit={LIMIT}
-                    pageNeighbours={2}
-                    onPageChanged={onPageChanged}
-                    currentPage={currentPage}
-                  />
-                )}
-              </div>
             </table>
           ) : (
-            <table className=" font-bold border-collapse border-spacing-y-2 w-4/5 text-lg  my-10  relative ">
+            <table className=" font-bold border-collapse border-spacing-y-2 w-4/5 text-lg  my-10  ">
               <thead className=" text-white shadow-2xl  ">
                 <tr>
                   <th className=" py-8 pl-12  text-start font-extrabold text-xl  bg-gray-600 w-1/3 ">
@@ -132,20 +120,20 @@ export default function App() {
                   );
                 })}
               </tbody>
-
-              <div className="flex flex-col py-7 absolute bottom-(-10) right-5">
-                {users.length > 5 && (
-                  <Pagination
-                    totalData={NUM_OF_RECORDS}
-                    pageLimit={LIMIT}
-                    pageNeighbours={2}
-                    onPageChanged={onPageChanged}
-                    currentPage={currentPage}
-                  />
-                )}
-              </div>
             </table>
           )}
+
+          <div className="flex flex-col py-7 absolute bottom-4 right-36">
+            {users.length > 5 && (
+              <Pagination
+                totalData={NUM_OF_RECORDS}
+                pageLimit={LIMIT}
+                pageNeighbours={2}
+                onPageChanged={onPageChanged}
+                currentPage={currentPage}
+              />
+            )}
+          </div>
         </div>
       )}
     </Fragment>
