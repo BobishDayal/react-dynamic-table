@@ -66,7 +66,7 @@ const TableRow = (props) => {
         />
       )}
 
-      <tr className="border  even:bg-gray-200 even:shadow-lg  ">
+      <tr className="border   ">
         <td
           className="py-8 pl-12 text-start text-sm  hover:cursor-pointer w-1/3 "
           onClick={openDetailsModal}

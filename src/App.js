@@ -2,15 +2,38 @@ import { Fragment, useState, useCallback } from "react";
 
 import TableRow from "./components/tableRow/TableRow";
 import Pagination from "./components/pagination/Pagination";
+import Error from "./components/errorPage/Error";
+import Loader from "./components/loader/Loader";
 
 export default function App() {
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(null);
 
   const fetchMoviesHandler = async () => {
-    const response = await fetch("https://jsonplaceholder.typicode.com/users");
-    const data = await response.json();
-    setUsers(data);
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(
+        "https://jsonplaceholder.typicode.com/users"
+      );
+      let data = await response.json();
+      // data.splice(0, data.length);
+
+      if (!response.ok || data.length === 0) {
+        throw new TypeError("Something went wrong.");
+      }
+      setUsers(data);
+      setLoading(false);
+    } catch (error) {
+      setError(error.message);
+      setLoading(false);
+    }
+  };
+
+  const returnHandler = () => {
+    setError(null);
   };
 
   let NUM_OF_RECORDS = users.length;
@@ -37,7 +60,7 @@ export default function App() {
 
   return (
     <Fragment>
-      {users.length === 0 ? (
+      {!error && !loading && users.length <= 0 && (
         <div className="w-screen h-screen flex flex-col justify-center items-center ">
           <button
             className=" hover:bg-blue-500 text-blue-700 font-bold hover:text-white py-2 px-4 border-4 border-blue-700 hover:border-transparent rounded-lg"
@@ -51,7 +74,8 @@ export default function App() {
             </p>
           </div>
         </div>
-      ) : (
+      )}
+      {!error && !loading && users.length > 0 && (
         <div className=" flex flex-col h-screen  justify-start items-center w-screen relatve ">
           {NUM_OF_RECORDS > 5 ? (
             <table className=" font-bold border-collapse border-spacing-y-2 w-4/5 text-lg  my-10   ">
@@ -135,7 +159,9 @@ export default function App() {
             )}
           </div>
         </div>
-      )}
+      )}{" "}
+      {!loading && error && <Error onReturn={returnHandler} message={error} />}
+      {loading && <Loader />}
     </Fragment>
   );
 }
